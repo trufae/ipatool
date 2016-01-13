@@ -40,11 +40,15 @@ class ITCMSDecoder
     func decodeString()
     {
         //var data:Unmanaged<CFData>? = nil
-        var data:UnsafeMutablePointer<CFData?> = nil
-        var status = CMSDecoderCopyContent(cmsDecoder!, data)
+        let data:UnsafeMutablePointer<CFData?> = nil
+        let status = CMSDecoderCopyContent(cmsDecoder!, data)
         assert(status == noErr)
+        if data != nil {
+            _decodedString = NSString(data: data.move()! as CFData, encoding: NSUTF8StringEncoding) as String?;
+
+        }
         //if let d = data {
-            _decodedString = NSString(data:data as! NSData, encoding: NSUTF8StringEncoding) as String?
+        //    _decodedString = NSString(data:data as! NSData, encoding: NSUTF8StringEncoding) as String?
         //}
     }
     
