@@ -19,14 +19,16 @@ class ITIpaTests_testConfig: XCTestCase {
     }
     
     override func tearDown() {
-        var error:NSError?
-        NSFileManager.defaultManager().removeItemAtURL(tempDirUrl, error: &error)
+        do {
+            try NSFileManager.defaultManager().removeItemAtURL(tempDirUrl)
+        } catch _ {
+        }
     }
     
     func testLoad()
     {
         let ipa = ITIpa()
-        let (ok, error) = ipa.load("nonexisting.ipa")
+        let (ok, _) = ipa.load("nonexisting.ipa")
         XCTAssertFalse(ok)
     }
 
@@ -55,13 +57,16 @@ class ITIpaTests: XCTestCase
 
         ipa = ITIpa()
         let ipaPath = config.ipaFullPath
-        let (ok, error) = ipa.load(ipaPath!)
+        let (ok, _) = ipa.load(ipaPath!)
         XCTAssertTrue(ok)
     }
     
     override func tearDown() {
-        var error:NSError?
-        NSFileManager.defaultManager().removeItemAtURL(tempDirUrl, error: &error)
+        do {
+            try NSFileManager.defaultManager().removeItemAtURL(tempDirUrl)
+        } catch _ {
+            assert(false);
+        }
     }
 
     func testAppName()
