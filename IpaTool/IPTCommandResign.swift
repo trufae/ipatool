@@ -33,7 +33,6 @@ class IPTCommandResign : ITCommand
         if (args.count < 2 || args.count > 3) {
             return (false, "Need parameters for ipa path and new provisioning profile")
         }
-
         if (!NSFileManager.defaultManager().isReadableFileAtPath(args[0])) {
             return (false, "First parameter must be path of ipa file")
         }
@@ -95,7 +94,7 @@ class IPTCommandResign : ITCommand
                 return "Error: could not load provisioning profile from path \(provPath)"
             }
             
-            if (bundleIdentifier != nil) {
+            if bundleIdentifier != nil {
                 let ok = replaceBundleIdentifier((ipa.appPath as NSString).stringByAppendingPathComponent("Info.plist"), bundleIdentifier!)
                 if (!ok) {
                     return "Error: failed to replace bundle identifier in Info.plist"
